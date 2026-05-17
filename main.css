@@ -113,14 +113,6 @@ hr {
 }
 
 /* Embedded Terminal/CMD Input Box */
-.cmd-label {
-    font-size: 12px;
-    text-transform: uppercase;
-    color: #888;
-    letter-spacing: 1px;
-    margin-bottom: -5px;
-}
-
 .cmd-box {
     width: 100%;
     padding: 10px;
@@ -131,6 +123,14 @@ hr {
     font-family: 'Courier New', Courier, monospace;
     box-sizing: border-box;
     outline: none;
+}
+
+.cmd-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #888;
+    letter-spacing: 1px;
+    margin-bottom: -5px;
 }
 
 .cmd-hint {
