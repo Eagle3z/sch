@@ -19,7 +19,7 @@
             <nav class="sidebar-menu">
                 <button class="menu-btn active" onclick="showDashboardHome()">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    DuckDuckGo Unblock
+                    Proxy Workspace
                 </button>
                 <button class="menu-btn" onclick="logToTerminal('Switched to CroxyProxy Social Workspace')">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
@@ -82,23 +82,23 @@
                 <div id="terminalLog" class="terminal-screen"></div>
                 <div class="terminal-input-wrapper">
                     <span class="terminal-prompt">admin$</span>
-                    <input type="text" id="cmdInput" class="terminal-input" placeholder="Type command (e.g. role Owner, /kick Guest_1234)..." onkeypress="handleAdminCommand(event)">
+                    <input type="text" id="cmdInput" class="terminal-input" placeholder="Type administrative commands here..." onkeypress="handleAdminCommand(event)">
                 </div>
             </div>
         </section>
 
-        <div id="browserView" class="right-side-browser" style="display: none;">
-            <div class="browser-navbar">
-                <div class="browser-address-indicator">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                    <span id="currentBrowsingUrl">Connecting to target Node...</span>
+        <div id="realBrowserView" class="right-side-web-frame" style="display: none;">
+            <div class="browser-header-navigation">
+                <div class="browser-address-pill">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    <span id="browserUrlIndicator">Loading secured node link...</span>
                 </div>
-                <button class="back-home-btn" onclick="showDashboardHome()">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                    Exit Node Viewer
+                <button class="exit-browser-btn" onclick="showDashboardHome()">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    Exit Web View
                 </button>
             </div>
-            <iframe id="proxyViewer" src="about:blank"></iframe>
+            <iframe id="liveWebRenderer" src="about:blank"></iframe>
         </div>
 
     </main>
@@ -107,7 +107,7 @@
         let userRole = "Guest";
         let username = "";
 
-        function loadUserIdentity() {
+        function loadIdentity() {
             const savedUser = localStorage.getItem('portal_user');
             if (savedUser) {
                 username = savedUser;
@@ -116,12 +116,11 @@
                 localStorage.setItem('portal_user', username);
             }
             document.getElementById('identityText').innerText = username;
-            
-            // Check if this specific user was kicked or banned previously
+
             if (localStorage.getItem('isBanned') === 'true' || localStorage.getItem('isKicked') === 'true') {
                 applyDisconnectionBlock();
             } else {
-                logToTerminal(`System core diagnostics online. Session loaded for: [${username}]`);
+                logToTerminal(`System sandbox initialized. Client signature ready: [${username}]`);
             }
         }
 
@@ -138,45 +137,49 @@
             launchProxy();
         }
 
+        // The Engine Controller that brings up the Real Web Page Canvas Layout
         function launchProxy() {
-            // Hard stop if user is flagged as kicked or banned
             if (localStorage.getItem('isBanned') === 'true' || localStorage.getItem('isKicked') === 'true') {
-                alert("Access Denied: Your browser session has been terminated by administration.");
+                alert("Security block: Access token has been suspended.");
                 return;
             }
 
-            let target = document.getElementById('urlInput').value.trim();
-            if (!target) return;
+            let inputTarget = document.getElementById('urlInput').value.trim();
+            if (!inputTarget) return;
 
-            if (target.toLowerCase() === 'duckduckgo') target = 'https://www.duckduckgo.com';
-            if (target.toLowerCase() === 'youtube') target = 'https://www.youtube.com';
-            if (target.toLowerCase() === 'google') target = 'https://www.google.com';
+            // Handle custom keywords cleanly
+            if (inputTarget.toLowerCase() === 'duckduckgo') inputTarget = 'https://duckduckgo.com';
+            if (inputTarget.toLowerCase() === 'youtube') inputTarget = 'https://youtube.com';
+            if (inputTarget.toLowerCase() === 'google') inputTarget = 'https://google.com';
 
-            if (!target.startsWith('http://') && !target.startsWith('https://')) {
-                target = 'https://' + target;
+            // Auto-format short domains
+            if (!inputTarget.startsWith('http://') && !inputTarget.startsWith('https://')) {
+                inputTarget = 'https://' + inputTarget;
             }
 
-            logToTerminal(`Proxy routing instruction verified. Mounting: ${target}`);
-            document.getElementById('currentBrowsingUrl').innerText = target;
+            logToTerminal(`Opening real live connection context path: ${inputTarget}`);
+            document.getElementById('browserUrlIndicator').innerText = inputTarget;
+
+            // POINT DIRECTLY TO YOUR SERVER PROXY ENDPOINT UNBLOCK ENGINE
+            document.getElementById('liveWebRenderer').src = `/proxy?url=${encodeURIComponent(inputTarget)}`;
             
-            document.getElementById('proxyViewer').src = `/proxy?url=${encodeURIComponent(target)}`;
+            // UI Toggle: Swap out the documentation dashboard view, reveal the active web frame
             document.getElementById('proxyHomeView').style.display = "none";
-            document.getElementById('browserView').style.display = "flex";
+            document.getElementById('realBrowserView').style.display = "flex";
         }
 
         function showDashboardHome() {
-            document.getElementById('browserView').style.display = "none";
+            document.getElementById('realBrowserView').style.display = "none";
             document.getElementById('proxyHomeView').style.display = "block";
-            document.getElementById('proxyViewer').src = "about:blank";
+            document.getElementById('liveWebRenderer').src = "about:blank";
         }
 
-        // Action when a user gets actively kicked/banned from web access
         function applyDisconnectionBlock() {
             showDashboardHome();
             document.getElementById('proxyHomeView').innerHTML = `
-                <div style="text-align:center; padding: 100px 20px; color:#e74c3c;">
-                    <h1 style="font-size: 36px; margin-bottom: 10px;">🔴 Node Disconnected</h1>
-                    <p style="color:#7f8c8d; font-size:16px;">Administrative command forced an immediate terminal termination on user: <b>${username}</b></p>
+                <div style="text-align:center; padding: 120px 20px; color:#e74c3c;">
+                    <h1 style="font-size: 38px; font-weight:700; margin-bottom: 12px;">🔴 Node Disconnected</h1>
+                    <p style="color:#7f8c8d; font-size:15px;">Your active environment profile connection was terminated by an absolute administration kick/ban payload sequence.</p>
                 </div>
             `;
         }
@@ -193,66 +196,43 @@
                     userRole = "Owner";
                     document.getElementById('roleText').innerText = "Owner";
                     document.getElementById('roleText').style.color = "#2ecc71";
-                    logToTerminal("Status updated: Account access elevation to [Owner]");
-                } 
-                else if (cmd === "online") {
-                    logToTerminal("--- Tracking Active Connections ---");
-                    logToTerminal(`${username} (${userRole}) [Local Node]`);
-                } 
-                else if (cmd.startsWith('/kick ')) {
-                    if (userRole !== "Owner") {
-                        logToTerminal("Security Error: Access level insufficient to drop clients.");
-                        input.value = '';
-                        return;
-                    }
-                    const targetUser = cmd.split(' ')[1];
-                    logToTerminal(`Executing termination sequence payload for target: ${targetUser}`);
-                    
-                    if (targetUser === username) {
+                    logToTerminal("Permissions Level: Upgraded safely to System Master Administrator");
+                } else if (cmd === "online") {
+                    logToTerminal("--- Core Node Registry Active Channels ---");
+                    logToTerminal(`${username} (${userRole}) [Local Instance Cluster]`);
+                } else if (cmd.startsWith('/kick ')) {
+                    if (userRole !== "Owner") { logToTerminal("Error: Execution failure. Access restricted."); input.value = ''; return; }
+                    const target = cmd.split(' ')[1];
+                    logToTerminal(`Deploying network disconnect call parameter downstream for identity: ${target}`);
+                    if (target === username) {
                         localStorage.setItem('isKicked', 'true');
                         setTimeout(applyDisconnectionBlock, 800);
-                    } else {
-                        logToTerminal(`Signal broadcasted. Disconnected node connection for string match.`);
                     }
-                } 
-                else if (cmd.startsWith('/ban ')) {
-                    if (userRole !== "Owner") {
-                        logToTerminal("Security Error: Access level insufficient to drop clients.");
-                        input.value = '';
-                        return;
-                    }
-                    const targetUser = cmd.split(' ')[1];
-                    logToTerminal(`Writing persistent address registry ban for target: ${targetUser}`);
-                    
-                    if (targetUser === username) {
+                } else if (cmd.startsWith('/ban ')) {
+                    if (userRole !== "Owner") { logToTerminal("Error: Execution failure. Access restricted."); input.value = ''; return; }
+                    const target = cmd.split(' ')[1];
+                    logToTerminal(`Writing absolute storage exclusion database block signature for user: ${target}`);
+                    if (target === username) {
                         localStorage.setItem('isBanned', 'true');
                         setTimeout(applyDisconnectionBlock, 800);
-                    } else {
-                        logToTerminal(`Target added to permanent registry network block list.`);
                     }
-                } 
-                else if (cmd.startsWith('/unban ')) {
-                    if (userRole !== "Owner") {
-                        logToTerminal("Security Error: Access level insufficient.");
-                        input.value = '';
-                        return;
-                    }
-                    const targetUser = cmd.split(' ')[1];
-                    logToTerminal(`Removing reference registry restriction block for target: ${targetUser}`);
-                    if (targetUser === username) {
+                } else if (cmd.startsWith('/unban ')) {
+                    if (userRole !== "Owner") { logToTerminal("Error: Access restricted."); input.value = ''; return; }
+                    const target = cmd.split(' ')[1];
+                    logToTerminal(`Purging exclusion array values matching identity string value: ${target}`);
+                    if (target === username) {
                         localStorage.removeItem('isBanned');
                         localStorage.removeItem('isKicked');
                         window.location.reload();
                     }
-                } 
-                else {
-                    logToTerminal("Syntax Error: Unknown input terminal token configuration entry.");
+                } else {
+                    logToTerminal("Runtime Exception: Command input instruction block token not found.");
                 }
                 input.value = '';
             }
         }
 
-        window.onload = loadUserIdentity;
+        window.onload = loadIdentity;
     </script>
 </body>
 </html>
