@@ -3,21 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Portal & Admin Console</title>
+    <title>Eagle3z Web Portal</title>
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
 
-    <!-- Unified Address Bar -->
+    <!-- Main Navigation Bar -->
     <header>
-        <label for="urlInput">BROWSER:</label>
-        <input type="text" id="urlInput" placeholder="Enter URL or shortcut (youtube, google, duckduckgo)">
-        <button onclick="navigateStream()">Load Link</button>
+        <div class="logo-area">EAGLE<span>3Z</span></div>
+        <div class="search-bar-container">
+            <input type="text" id="urlInput" placeholder="Enter keyword (google, youtube, duckduckgo) or any URL...">
+            <button onclick="launchRealBrowser()">Launch Web</button>
+        </div>
     </header>
 
     <!-- App Body Area -->
     <div class="workspace">
-        <iframe id="webViewer" src="about:blank"></iframe>
+        
+        <!-- Welcome Splash Screen instead of an iframe -->
+        <div class="main-display">
+            <div class="welcome-box">
+                <h1>Google Engine Portal</h1>
+                <p>Type your destination shortcut or target address in the bar above and click "Launch Web" to open the authentic, unblocked site instantly.</p>
+                <div class="shortcut-tags">
+                    <span onclick="setSearch('google')">Google.com</span>
+                    <span onclick="setSearch('youtube')">YouTube.com</span>
+                    <span onclick="setSearch('duckduckgo')">DuckDuckGo.com</span>
+                </div>
+            </div>
+        </div>
 
         <!-- Sidebar Administrative Controls -->
         <div class="admin-sidebar" id="controlPanel">
@@ -43,25 +57,19 @@
         let myPermission = "Guest";
         let myUsername = "";
 
-        // Core Identity Check System (Saves across refreshes)
+        // Identity verification system (Preserves name across browser refresh)
         function initIdentity() {
-            // Try to find an existing name inside the browser storage
             const savedName = localStorage.getItem('portal_username');
-
             if (savedName) {
                 myUsername = savedName;
             } else {
-                // If no name exists, build a brand new random identity
                 const randomID = Math.floor(1000 + Math.random() * 9000);
                 myUsername = "Guest_" + randomID;
-                // Lock it into browser storage memory
                 localStorage.setItem('portal_username', myUsername);
             }
-
             document.getElementById('identityText').innerText = myUsername;
         }
 
-        // Run identity tracking immediately on layout setup
         initIdentity();
 
         function printToTerminal(text) {
@@ -70,16 +78,22 @@
             output.scrollTop = output.scrollHeight;
         }
 
-        function navigateStream() {
+        function setSearch(keyword) {
+            document.getElementById('urlInput').value = keyword;
+        }
+
+        // Launches the real, original browser engine tabs safely
+        function launchRealBrowser() {
             let input = document.getElementById('urlInput').value.trim().toLowerCase();
             if (!input) return;
 
             let targetUrl = input;
 
-            if (input === 'youtube') {
-                targetUrl = 'https://www.youtube.com';
-            } else if (input === 'google') {
+            // Strict matching for primary engine targets
+            if (input === 'google') {
                 targetUrl = 'https://www.google.com';
+            } else if (input === 'youtube') {
+                targetUrl = 'https://www.youtube.com';
             } else if (input === 'duckduckgo' || input === 'duck duck') {
                 targetUrl = 'https://www.duckduckgo.com';
             } else {
@@ -88,8 +102,171 @@
                 }
             }
 
-            printToTerminal(`Navigating browser panel to: ${targetUrl}`);
-            document.getElementById('webViewer').src = targetUrl;
+            printToTerminal(`Opening native browser thread to: ${targetUrl}`);
+            
+            // Opens the real window completely unblocked
+            window.open(targetUrl, '_blank');
+        }
+
+        function executeCommand(event) {
+            if (event.key === 'Enter') {
+                const consoleInput = document.getElementById('cmdInput');
+                const rawCommand = consoleInput.value.trim();
+                if (!rawCommand) return;
+
+                printToTerminal(rawCommand);
+
+                if (rawCommand === "role Owner") {
+                    myPermission = "Owner";
+                    document.getElementById('permissionText').innerText = "Owner";
+                    document.getElementById('permissionText').style.color = "#2ecc71";
+                    printToTerminal("Permission Escalated: Owner privileges granted.");
+                } 
+                else if (rawCommand === "online") {
+                    printToTerminal("--- Online Users ---");
+                    printToTerminal(`${myUsername} (${myPermission}) [You]`);
+                } 
+                else if (rawCommand.startsWith('/kick ')) {
+                    if (myPermission !== "Owner") {
+                        printToTerminal("Error: Access denied. Requires Owner permissions.");
+                    } else {
+                        const target = rawCommand.split(' ')[1];
+                        printToTerminal(`Dispatched DISCONNECT signal to target: ${target}`);
+                    }
+                } 
+                else if (rawCommand.startsWith('/ban ')) {
+                    if (myPermission !== "Owner") {
+                        printToTerminal("Error: Access denied. Requires Owner permissions.");
+                    } else {
+                        const target = rawCommand.split(' ')[1];
+                        printToTerminal(`Added target to Network Blocklist: ${target}`);
+                    }
+                } 
+                else if (rawCommand.startsWith('/unban ')) {
+                    if (myPermission !== "Owner") {
+                        printToTerminal("Error: Access denied. Requires Owner permissions.");
+                    } else {
+                        const target = rawCommand.split(' ')[1];
+                        printToTerminal(`Removed target from Network Blocklist: ${target}`);
+                    }
+                } 
+                else {
+                    printToTerminal("Command error: Instruction unrecognized.");
+                }
+
+                consoleInput.value = '';
+            }
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eagle3z Web Portal</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+
+    <!-- Main Navigation Bar -->
+    <header>
+        <div class="logo-area">EAGLE<span>3Z</span></div>
+        <div class="search-bar-container">
+            <input type="text" id="urlInput" placeholder="Enter keyword (google, youtube, duckduckgo) or any URL...">
+            <button onclick="launchRealBrowser()">Launch Web</button>
+        </div>
+    </header>
+
+    <!-- App Body Area -->
+    <div class="workspace">
+        
+        <!-- Welcome Splash Screen instead of an iframe -->
+        <div class="main-display">
+            <div class="welcome-box">
+                <h1>Google Engine Portal</h1>
+                <p>Type your destination shortcut or target address in the bar above and click "Launch Web" to open the authentic, unblocked site instantly.</p>
+                <div class="shortcut-tags">
+                    <span onclick="setSearch('google')">Google.com</span>
+                    <span onclick="setSearch('youtube')">YouTube.com</span>
+                    <span onclick="setSearch('duckduckgo')">DuckDuckGo.com</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Administrative Controls -->
+        <div class="admin-sidebar" id="controlPanel">
+            <h3>Management Console</h3>
+            
+            <div class="status-text">Your Identity: <span id="identityText" style="color:#3498db;">Loading...</span></div>
+            <div class="status-text">Current Permission: <span id="permissionText" style="color:#e74c3c;">Guest</span></div>
+            <div class="status-text">Active Sessions: <span id="sessionCounter">1</span></div>
+            
+            <hr>
+
+            <!-- Console Log Output Box -->
+            <label class="cmd-label">System Output</label>
+            <div id="terminalOutput" class="terminal-log"></div>
+
+            <label class="cmd-label" for="cmdInput">Command Line Interface</label>
+            <input type="text" id="cmdInput" class="cmd-box" placeholder="type command here..." onkeypress="executeCommand(event)">
+            <p class="cmd-hint">Commands: <code>role Owner</code>, <code>online</code>, <code>/kick [name]</code>, <code>/ban [name]</code></p>
+        </div>
+    </div>
+
+    <script>
+        let myPermission = "Guest";
+        let myUsername = "";
+
+        // Identity verification system (Preserves name across browser refresh)
+        function initIdentity() {
+            const savedName = localStorage.getItem('portal_username');
+            if (savedName) {
+                myUsername = savedName;
+            } else {
+                const randomID = Math.floor(1000 + Math.random() * 9000);
+                myUsername = "Guest_" + randomID;
+                localStorage.setItem('portal_username', myUsername);
+            }
+            document.getElementById('identityText').innerText = myUsername;
+        }
+
+        initIdentity();
+
+        function printToTerminal(text) {
+            const output = document.getElementById('terminalOutput');
+            output.innerHTML += `<div>> ${text}</div>`;
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function setSearch(keyword) {
+            document.getElementById('urlInput').value = keyword;
+        }
+
+        // Launches the real, original browser engine tabs safely
+        function launchRealBrowser() {
+            let input = document.getElementById('urlInput').value.trim().toLowerCase();
+            if (!input) return;
+
+            let targetUrl = input;
+
+            // Strict matching for primary engine targets
+            if (input === 'google') {
+                targetUrl = 'https://www.google.com';
+            } else if (input === 'youtube') {
+                targetUrl = 'https://www.youtube.com';
+            } else if (input === 'duckduckgo' || input === 'duck duck') {
+                targetUrl = 'https://www.duckduckgo.com';
+            } else {
+                if (!targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) {
+                    targetUrl = 'https://' + targetUrl;
+                }
+            }
+
+            printToTerminal(`Opening native browser thread to: ${targetUrl}`);
+            
+            // Opens the real window completely unblocked
+            window.open(targetUrl, '_blank');
         }
 
         function executeCommand(event) {
