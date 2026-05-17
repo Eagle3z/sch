@@ -3,21 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Portal</title>
+    <title>Enterprise Proxy Dashboard</title>
     <link rel="stylesheet" href="main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <aside class="left-sidebar">
-        <div class="sidebar-brand">DASHBOARD</div>
-        
-        <nav class="sidebar-menu">
-            <button class="menu-btn active" onclick="showDashboardHome()">YouTube Unblock</button>
-            <button class="menu-btn" onclick="logToTerminal('Switched to CroxyProxy Social')">CroxyProxy Social</button>
-        </nav>
+        <div>
+            <div class="sidebar-brand">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                <span>DASHBOARD</span>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <button class="menu-btn active" onclick="showDashboardHome()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+                    YouTube Unblock
+                </button>
+                <button class="menu-btn" onclick="logToTerminal('Switched to CroxyProxy Social Workspace')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    CroxyProxy Social
+                </button>
+            </nav>
+        </div>
 
         <div class="sidebar-footer">
-            <button class="refresh-btn" onclick="window.location.reload();">Refresh App</button>
+            <button class="refresh-btn" onclick="window.location.reload();">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
+                Refresh App
+            </button>
         </div>
     </aside>
 
@@ -27,43 +42,61 @@
             <h1 class="proxy-title">Unblock YouTube</h1>
             
             <p class="proxy-subtitle">
-                Say goodbye to pesky restrictions and hello to endless browsing possibilities with our fast and free web proxy. 
-                "Unblock YouTube" allows you to bypass website blocks with ease.
+                Say goodbye to pesky restrictions and hello to endless browsing possibilities with our fast and free web proxy. Bypassing modern content filters securely from a single unified portal.
             </p>
 
             <div class="search-box-wrapper">
-                <input type="text" id="urlInput" placeholder="Enter an URL or a search query to access">
-                <button class="go-btn" onclick="launchProxy()">➔ Go!</button>
+                <div class="search-input-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a48e77" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </div>
+                <input type="text" id="urlInput" placeholder="Enter an URL link or a search query to safely access...">
+                <button class="go-btn" onclick="launchProxy()">Go!</button>
             </div>
 
             <div class="quick-links">
-                <span>Quick links:</span>
-                <a href="#" onclick="setURL('duckduckgo.com')">DuckDuckGo</a>
-                <a href="#" onclick="setURL('google.com')">Google</a>
-                <a href="#" onclick="setURL('youtube.com')">YouTube</a>
-                <a href="#" onclick="setURL('facebook.com')">Facebook</a>
-                <a href="#" onclick="setURL('wikipedia.org')">Wikipedia</a>
-                <a href="#" onclick="setURL('reddit.com')">Reddit</a>
+                <span class="links-title">Quick links:</span>
+                <div class="links-cloud">
+                    <a href="#" onclick="setURL('duckduckgo.com')">DuckDuckGo</a>
+                    <a href="#" onclick="setURL('google.com')">Google</a>
+                    <a href="#" onclick="setURL('youtube.com')">YouTube</a>
+                    <a href="#" onclick="setURL('facebook.com')">Facebook</a>
+                    <a href="#" onclick="setURL('wikipedia.org')">Wikipedia</a>
+                    <a href="#" onclick="setURL('reddit.com')">Reddit</a>
+                </div>
             </div>
 
             <div class="info-content">
-                <p>Simply paste the website URL in the box above and hit "GO" to enjoy seamless browsing. Try it out today and take back control of your internet experience!</p>
-                <p>Looking for a secure and private way to browse the web? Our web proxy provides you with complete anonymity, allowing you to access any website without revealing your IP address or location.</p>
+                <div class="info-card">
+                    <p>Simply paste your destination path in the layout console above and hit "Go!" to instantiate your sandbox browser instance. Take clean control over your network flow instantly.</p>
+                </div>
+                <div class="info-card">
+                    <p>Looking for secure, completely isolated access structures? This deployment handles connection protocols cleanly, letting you run processes safely without exposing client IP data details over simple infrastructure chains.</p>
+                </div>
             </div>
 
             <div class="admin-terminal-section">
                 <div class="terminal-header">
-                    Identity: <span id="identityText">Loading...</span> | Role: <span id="roleText">Guest</span>
+                    <div class="terminal-dots"><span></span><span></span><span></span></div>
+                    <div class="terminal-meta">Identity: <span id="identityText">...</span> | Permission: <span id="roleText">Guest</span></div>
                 </div>
                 <div id="terminalLog" class="terminal-screen"></div>
-                <input type="text" id="cmdInput" class="terminal-input" placeholder="Enter admin command here..." onkeypress="handleAdminCommand(event)">
+                <div class="terminal-input-wrapper">
+                    <span class="terminal-prompt">admin$</span>
+                    <input type="text" id="cmdInput" class="terminal-input" placeholder="Enter terminal token strings or config instructions..." onkeypress="handleAdminCommand(event)">
+                </div>
             </div>
         </section>
 
         <div id="browserView" class="right-side-browser" style="display: none;">
             <div class="browser-navbar">
-                <span id="currentBrowsingUrl">Loading Page...</span>
-                <button class="back-home-btn" onclick="showDashboardHome()">✕ Close Web</button>
+                <div class="browser-address-indicator">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    <span id="currentBrowsingUrl">Connecting to target Node...</span>
+                </div>
+                <button class="back-home-btn" onclick="showDashboardHome()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    Exit Node Viewer
+                </button>
             </div>
             <iframe id="proxyViewer" src="about:blank"></iframe>
         </div>
@@ -83,24 +116,23 @@
                 localStorage.setItem('portal_user', username);
             }
             document.getElementById('identityText').innerText = username;
-            logToTerminal(`System Initialized. Welcome back, ${username}.`);
+            logToTerminal(`System core diagnostics online. Identity assigned to session: [${username}]`);
         }
         loadUserIdentity();
 
         function logToTerminal(msg) {
             const screen = document.getElementById('terminalLog');
             if(screen) {
-                screen.innerHTML += `<div>> ${msg}</div>`;
+                screen.innerHTML += `<div><span style="color:#7f8c8d;">[${new Date().toLocaleTimeString()}]</span> ${msg}</div>`;
                 screen.scrollTop = screen.scrollHeight;
             }
         }
 
         function setURL(url) {
             document.getElementById('urlInput').value = url;
-            launchProxy(); // Automatically launch when a quick link is clicked
+            launchProxy();
         }
 
-        // Switches views to show the custom browser inside the right side panel
         function launchProxy() {
             let target = document.getElementById('urlInput').value.trim();
             if (!target) return;
@@ -113,23 +145,21 @@
                 target = 'https://' + target;
             }
 
-            logToTerminal(`Routing traffic to right-side window: ${target}`);
+            logToTerminal(`Proxy routing instruction verified. Mounting: ${target}`);
+            document.getElementById('currentBrowsingUrl').innerText = target;
             
-            document.getElementById('currentBrowsingUrl').innerText = "Browsing: " + target;
-            
-            // Connect to your node backend unblocker engine route
+            // Connect downstream to your custom local / proxy rewrite server API pipeline
             document.getElementById('proxyViewer').src = `/proxy?url=${encodeURIComponent(target)}`;
             
-            // Hide the home text menu and reveal the web browser on the right side
             document.getElementById('proxyHomeView').style.display = "none";
             document.getElementById('browserView').style.display = "flex";
         }
 
-        // Returns right panel back to the proxy entry dashboard interface
         function showDashboardHome() {
             document.getElementById('browserView').style.display = "none";
             document.getElementById('proxyHomeView').style.display = "block";
             document.getElementById('proxyViewer').src = "about:blank";
+            logToTerminal(`Terminated frame sandbox session. Active route returned back to home panel.`);
         }
 
         function handleAdminCommand(e) {
@@ -138,36 +168,36 @@
                 const cmd = input.value.trim();
                 if (!cmd) return;
 
-                logToTerminal(cmd);
+                logToTerminal(`<span style="color:#fff;">$ ${cmd}</span>`);
 
                 if (cmd === "role Owner") {
                     userRole = "Owner";
                     document.getElementById('roleText').innerText = "Owner";
                     document.getElementById('roleText').style.color = "#2ecc71";
-                    logToTerminal("Permission Escalated: Owner privileges granted.");
+                    logToTerminal("System Configuration Modified: Status flag upgraded to Level 1 [Owner]");
                 } else if (cmd === "online") {
-                    logToTerminal("--- Online Users ---");
-                    logToTerminal(`${username} (${userRole}) [You]`);
+                    logToTerminal("--- Tracking Active Connections ---");
+                    logToTerminal(`${username} (${userRole}) [Local Node]`);
                 } else if (cmd.startsWith('/kick ')) {
                     if (userRole !== "Owner") {
-                        logToTerminal("Error: Denied. Requires Owner role.");
+                        logToTerminal("Security Halt: Action rejected. Token level insufficient.");
                     } else {
-                        logToTerminal(`Kicked user: ${cmd.split(' ')[1]}`);
+                        logToTerminal(`Dispatched force disconnect session instruction payload to client: ${cmd.split(' ')[1]}`);
                     }
                 } else if (cmd.startsWith('/ban ')) {
                     if (userRole !== "Owner") {
-                        logToTerminal("Error: Denied. Requires Owner role.");
+                        logToTerminal("Security Halt: Action rejected. Token level insufficient.");
                     } else {
-                        logToTerminal(`Banned IP address: ${cmd.split(' ')[1]}`);
+                        logToTerminal(`Committed structural routing block across registry for identifier: ${cmd.split(' ')[1]}`);
                     }
                 } else if (cmd.startsWith('/unban ')) {
                     if (userRole !== "Owner") {
-                        logToTerminal("Error: Denied. Requires Owner role.");
+                        logToTerminal("Security Halt: Action rejected. Token level insufficient.");
                     } else {
-                        logToTerminal(`Unbanned IP address: ${cmd.split(' ')[1]}`);
+                        logToTerminal(`Purged structural network block reference key matching identifier: ${cmd.split(' ')[1]}`);
                     }
                 } else {
-                    logToTerminal("Command error: Unknown instruction string.");
+                    logToTerminal("Syntax Error: Administrative input command parameter undefined.");
                 }
                 input.value = '';
             }
