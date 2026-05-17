@@ -158,13 +158,13 @@
 
     <div class="sidebar">
         <h2>DASHBOARD</h2>
-        <button id="btn-yt" class="nav-btn active" onclick="loadSite('https://www.unblockyoutube.co/', 'btn-yt')">YouTube Unblock</button>
+        <button id="btn-yt" class="nav-btn active" onclick="loadSite('https://www.youtube.com/', 'btn-yt')">YouTube Unblock</button>
         <button id="btn-croxy" class="nav-btn" onclick="loadSite('https://www.croxyproxy.com/social', 'btn-croxy')">CroxyProxy Social</button>
         <button class="nav-btn" style="margin-top: auto; background: #222; color: #aaa;" onclick="location.reload()">Refresh App</button>
     </div>
 
     <div class="content" id="mainContentCanvas">
-        <iframe id="main-frame" name="view" src="about:blank"></iframe>
+        <iframe id="main-frame" name="view" src="about:blank" allow="autoplay; encrypted-media; fullscreen;"></iframe>
 
         <div class="admin-terminal-section">
             <div class="terminal-header">
@@ -215,9 +215,17 @@
                 return;
             }
             
+            let finalUrl = url;
+            
+            // FIXED LAYER HOOK: If opening regular youtube, automatically route it through a secure web layer
+            if (url.includes('youtube.com')) {
+                logToTerminal(`Proxy Tunnel Triggered: Re-routing youtube destination securely...`);
+                finalUrl = "https://www.croxyproxy.com/_embed/processing?url=" + encodeURIComponent(url);
+            }
+
             // Set frame path destination link reference target parameters
-            document.getElementById('main-frame').src = url;
-            logToTerminal(`Updating active layout wrapper container channel window target to: ${url}`);
+            document.getElementById('main-frame').src = finalUrl;
+            logToTerminal(`Updating active frame target to: ${url}`);
 
             // Toggle active styling highlights cleanly across menus
             document.querySelectorAll('.sidebar .nav-btn').forEach(btn => btn.classList.remove('active'));
