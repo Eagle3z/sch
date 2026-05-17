@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Portal - Dynamic Dashboard</title>
+    <title>Web Portal - Fullscreen Bottom Terminal Dashboard</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -12,8 +12,18 @@
             background-color: #0f0f0f;
             color: white;
             display: flex;
+            flex-direction: column;
             height: 100vh;
+            width: 100vw;
             overflow: hidden;
+        }
+
+        /* Top Workspace Layout Wrapper */
+        .workspace-wrapper {
+            display: flex;
+            flex-grow: 1;
+            width: 100%;
+            height: calc(100% - 180px); /* Leaves exact space for the bottom console panel */
         }
 
         /* Sidebar Navigation Layout */
@@ -26,6 +36,7 @@
             padding: 20px;
             gap: 10px;
             flex-shrink: 0;
+            height: 100%;
         }
 
         .sidebar h2 {
@@ -61,31 +72,34 @@
             border-left: 4px solid #00aaff;
         }
 
-        /* Content Canvas Panel Space */
+        /* Content Area Container */
         .content {
             flex-grow: 1;
-            display: flex;
-            flex-direction: column;
+            height: 100%;
             background: #121212;
             position: relative;
         }
 
-        /* Clean Frame Element Viewport */
+        /* Clean Embedded Frame Canvas */
         iframe {
             width: 100%;
-            flex-grow: 1;
+            height: 100%;
             border: none;
             background: white;
         }
 
-        /* Embedded Terminal Interface Console Design */
+        /* FULLSCREEN BOTTOM TERMINAL LAYER */
         .admin-terminal-section {
+            width: 100%;
+            height: 180px; /* Locked bottom heights panel */
             background: #16161a;
             border-top: 1px solid #2d2d35;
-            padding: 14px 20px;
+            padding: 12px 20px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
+            flex-shrink: 0;
+            z-index: 10;
         }
 
         .terminal-header {
@@ -114,7 +128,7 @@
         }
 
         .terminal-screen {
-            height: 100px;
+            flex-grow: 1;
             background-color: #09090b;
             color: #00aaff;
             font-family: 'Courier New', monospace;
@@ -130,7 +144,7 @@
             align-items: center;
             background-color: #1f1f23;
             border-radius: 6px;
-            padding: 4px 12px;
+            padding: 2px 12px;
             border: 1px solid #2d2d35;
         }
 
@@ -156,35 +170,44 @@
 </head>
 <body>
 
-    <div class="sidebar">
-        <h2>DASHBOARD</h2>
-        <button id="btn-yt" class="nav-btn active" onclick="loadSite('https://www.youtube.com/', 'btn-yt')">YouTube Unblock</button>
-        <button id="btn-croxy" class="nav-btn" onclick="loadSite('https://www.croxyproxy.com/social', 'btn-croxy')">CroxyProxy Social</button>
-        <button class="nav-btn" style="margin-top: auto; background: #222; color: #aaa;" onclick="location.reload()">Refresh App</button>
+    <div class="workspace-wrapper">
+        <div class="sidebar">
+            <h2>DASHBOARD</h2>
+            <button id="btn-yt" class="nav-btn active" onclick="loadSite('https://www.youtube.com/', 'btn-yt')">YouTube</button>
+            <button id="btn-tt" class="nav-btn" onclick="loadSite('https://www.tiktok.com/', 'btn-tt')">TikTok</button>
+            <button id="btn-croxy" class="nav-btn" onclick="loadSite('https://www.croxyproxy.com/social', 'btn-croxy')">CroxyProxy Social</button>
+            <button class="nav-btn" style="margin-top: auto; background: #222; color: #aaa;" onclick="location.reload()">Refresh App</button>
+        </div>
+
+        <div class="content" id="mainContentCanvas">
+            <iframe id="main-frame" name="view" src="about:blank" allow="autoplay; encrypted-media; fullscreen;"></iframe>
+        </div>
     </div>
 
-    <div class="content" id="mainContentCanvas">
-        <iframe id="main-frame" name="view" src="about:blank" allow="autoplay; encrypted-media; fullscreen;"></iframe>
-
-        <div class="admin-terminal-section">
-            <div class="terminal-header">
-                <div class="terminal-dots"><span></span><span></span><span></span></div>
-                <div class="terminal-meta">Identity: <span id="identityText" style="color: #00aaff;">...</span> | Permission: <span id="roleText" style="color: #aaa;">Guest</span></div>
+    <div class="admin-terminal-section">
+        <div class="terminal-header">
+            <div class="terminal-dots"><span></span><span></span><span></span></div>
+            <div class="terminal-meta">
+                Player Name: <span id="playerNameText" style="color: #00ff77; margin-right: 15px;">...</span> 
+                Identity: <span id="identityText" style="color: #00aaff;">...</span> | 
+                Permission: <span id="roleText" style="color: #aaa;">Guest</span>
             </div>
-            <div id="terminalLog" class="terminal-screen"></div>
-            <div class="terminal-input-wrapper">
-                <span class="terminal-prompt">admin$</span>
-                <input type="text" id="cmdInput" class="terminal-input" placeholder="Type administrative commands here (e.g., role Owner)..." onkeypress="handleAdminCommand(event)">
-            </div>
+        </div>
+        <div id="terminalLog" class="terminal-screen"></div>
+        <div class="terminal-input-wrapper">
+            <span class="terminal-prompt">admin$</span>
+            <input type="text" id="cmdInput" class="terminal-input" placeholder="Type administrative commands here (e.g., name Neo, role Owner)..." onkeypress="handleAdminCommand(event)">
         </div>
     </div>
 
     <script>
         let userRole = "Guest";
         let username = "";
+        let playerName = "";
 
-        // Instantiates local cache profile configuration identities
+        // Instantiates local cache profile configurations and identity definitions
         function loadIdentity() {
+            // Set up registration identity
             const savedUser = localStorage.getItem('portal_user');
             if (savedUser) {
                 username = savedUser;
@@ -194,11 +217,21 @@
             }
             document.getElementById('identityText').innerText = username;
 
-            // Enforces structural ban state constraints if configured inside cache
+            // Set up customizable Player Name
+            const savedPlayerName = localStorage.getItem('player_name');
+            if (savedPlayerName) {
+                playerName = savedPlayerName;
+            } else {
+                playerName = "Player_" + Math.floor(100 + Math.random() * 900);
+                localStorage.setItem('player_name', playerName);
+            }
+            document.getElementById('playerNameText').innerText = playerName;
+
+            // Enforces structural block constraints if configured in local cache memory
             if (localStorage.getItem('isBanned') === 'true' || localStorage.getItem('isKicked') === 'true') {
                 applyDisconnectionBlock();
             } else {
-                logToTerminal(`Terminal gateway responsive. Session profile loaded: [${username}]`);
+                logToTerminal(`Terminal gateway responsive. Welcome back, ${playerName}! Profile: [${username}]`);
             }
         }
 
@@ -217,17 +250,17 @@
             
             let finalUrl = url;
             
-            // FIXED LAYER HOOK: If opening regular youtube, automatically route it through a secure web layer
-            if (url.includes('youtube.com')) {
-                logToTerminal(`Proxy Tunnel Triggered: Re-routing youtube destination securely...`);
+            // AUTOMATED ROUTING LAYER: If visiting YouTube or TikTok, automatically secure through an embedded web path layer
+            if (url.includes('youtube.com') || url.includes('tiktok.com')) {
+                logToTerminal(`Proxy Tunnel Triggered: Re-routing ${url} link securely via automated proxy gateway layer...`);
                 finalUrl = "https://www.croxyproxy.com/_embed/processing?url=" + encodeURIComponent(url);
             }
 
-            // Set frame path destination link reference target parameters
+            // Update main sandbox frame content element destination variables
             document.getElementById('main-frame').src = finalUrl;
-            logToTerminal(`Updating active frame target to: ${url}`);
+            logToTerminal(`Updating active layout frame viewport reference to: ${url}`);
 
-            // Toggle active styling highlights cleanly across menus
+            // Toggle active highlighting cleanly across menus
             document.querySelectorAll('.sidebar .nav-btn').forEach(btn => btn.classList.remove('active'));
             if(btnId) {
                 document.getElementById(btnId).classList.add('active');
@@ -243,25 +276,42 @@
             `;
         }
 
-        // Administrative Core Engine Process Rules Handling Logic
+        // Administrative Core Console Engine Process Rule Input Handler
         function handleAdminCommand(e) {
             if (e.key === 'Enter') {
                 const input = document.getElementById('cmdInput');
                 const cmd = input.value.trim();
                 if (!cmd) return;
 
-                // Echo the entered terminal command back onto console array
+                // Echo typed parameter instructions onto terminal tracking screen
                 logToTerminal(`<span style="color:#fff;">$ ${cmd}</span>`);
 
-                if (cmd === "role Owner") {
+                // 1. Name configuration parameter handler
+                if (cmd.startsWith('name ')) {
+                    const newName = cmd.substring(5).trim();
+                    if(newName) {
+                        playerName = newName;
+                        localStorage.setItem('player_name', newName);
+                        document.getElementById('playerNameText').innerText = newName;
+                        logToTerminal(`Player name changed successfully to: <span style="color:#00ff77;">${newName}</span>`);
+                    } else {
+                        logToTerminal("Error syntax: Please supply a valid string argument.");
+                    }
+                } 
+                // 2. Privilege level escalation command handler
+                else if (cmd === "role Owner") {
                     userRole = "Owner";
                     document.getElementById('roleText').innerText = "Owner";
                     document.getElementById('roleText').style.color = "#00ff77";
                     logToTerminal("Permissions status escalated: Master Admin access key matches.");
-                } else if (cmd === "online") {
+                } 
+                // 3. Status registry viewer command handler
+                else if (cmd === "online") {
                     logToTerminal("--- Network Instance Table Registry ---");
-                    logToTerminal(`${username} (${userRole}) [Local Dashboard Client Node Active]`);
-                } else if (cmd.startsWith('/kick ')) {
+                    logToTerminal(`Player: ${playerName} | User ID: ${username} | Role: ${userRole} [Client Node Active]`);
+                } 
+                // 4. Kick procedure rule parameter handler
+                else if (cmd.startsWith('/kick ')) {
                     if (userRole !== "Owner") { logToTerminal("Error status code: Access command blocked. Owner permissions needed."); input.value = ''; return; }
                     const target = cmd.split(' ')[1];
                     logToTerminal(`Closing transmission gateway pipeline structure rules for user string: ${target}`);
@@ -269,7 +319,9 @@
                         localStorage.setItem('isKicked', 'true');
                         setTimeout(applyDisconnectionBlock, 600);
                     }
-                } else if (cmd.startsWith('/ban ')) {
+                } 
+                // 5. Permanent database filter flag ban procedure rule handler
+                else if (cmd.startsWith('/ban ')) {
                     if (userRole !== "Owner") { logToTerminal("Error status code: Access command blocked. Owner permissions needed."); input.value = ''; return; }
                     const target = cmd.split(' ')[1];
                     logToTerminal(`Writing persistent database server network hardware blocking filter flag for: ${target}`);
@@ -277,7 +329,9 @@
                         localStorage.setItem('isBanned', 'true');
                         setTimeout(applyDisconnectionBlock, 600);
                     }
-                } else if (cmd.startsWith('/unban ')) {
+                } 
+                // 6. Access restriction removal clear handler routine
+                else if (cmd.startsWith('/unban ')) {
                     if (userRole !== "Owner") { logToTerminal("Error status code: Access command blocked. Owner permissions needed."); input.value = ''; return; }
                     const target = cmd.split(' ')[1];
                     logToTerminal(`Clearing cached session variable parameters for client handle: ${target}`);
@@ -286,14 +340,15 @@
                         localStorage.removeItem('isKicked');
                         window.location.reload();
                     }
-                } else {
+                } 
+                else {
                     logToTerminal("<span style="color:#ff4444;">Terminal warning code syntax error: Parameter input unverified.</span>");
                 }
                 input.value = '';
             }
         }
 
-        // Initial launch configuration load routine triggers
+        // Execution setup routine triggers on window object assembly 
         window.onload = function() {
             loadIdentity();
             loadSite('https://www.youtube.com/', 'btn-yt');
