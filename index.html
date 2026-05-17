@@ -39,10 +39,10 @@
     <main class="main-content">
         
         <section id="proxyHomeView" class="proxy-container">
-            <h1 class="proxy-title">Unblock DuckDuckGo</h1>
+            <h1 class="proxy-title">Proxy Gateway</h1>
             
             <p class="proxy-subtitle">
-                Say goodbye to pesky restrictions and hello to endless browsing possibilities with our fast and free web proxy. Securely route tracking-free searches directly through an isolated panel layer.
+                Enter an address or query below to route traffic dynamically through your secure network proxy channel.
             </p>
 
             <div class="search-box-wrapper">
@@ -65,15 +65,6 @@
                 </div>
             </div>
 
-            <div class="info-content">
-                <div class="info-card">
-                    <p>Simply paste your destination path in the layout console above and hit "Go!" to instantiate your sandbox browser instance. Take clean control over your network flow instantly.</p>
-                </div>
-                <div class="info-card">
-                    <p>Looking for secure, completely isolated access structures? This deployment handles connection protocols cleanly, letting you run processes safely without exposing client data details.</p>
-                </div>
-            </div>
-
             <div class="admin-terminal-section">
                 <div class="terminal-header">
                     <div class="terminal-dots"><span></span><span></span><span></span></div>
@@ -91,7 +82,7 @@
             <div class="browser-header-navigation">
                 <div class="browser-address-pill">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                    <span id="browserUrlIndicator">Loading secured node link...</span>
+                    <span id="browserUrlIndicator">Loading proxy layer...</span>
                 </div>
                 <button class="exit-browser-btn" onclick="showDashboardHome()">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -120,7 +111,7 @@
             if (localStorage.getItem('isBanned') === 'true' || localStorage.getItem('isKicked') === 'true') {
                 applyDisconnectionBlock();
             } else {
-                logToTerminal(`System sandbox initialized. Client signature ready: [${username}]`);
+                logToTerminal(`Proxy core engine online. Active user: [${username}]`);
             }
         }
 
@@ -137,33 +128,29 @@
             launchProxy();
         }
 
-        // The Engine Controller that brings up the Real Web Page Canvas Layout
         function launchProxy() {
             if (localStorage.getItem('isBanned') === 'true' || localStorage.getItem('isKicked') === 'true') {
-                alert("Security block: Access token has been suspended.");
+                alert("Security lock: Session terminated.");
                 return;
             }
 
             let inputTarget = document.getElementById('urlInput').value.trim();
             if (!inputTarget) return;
 
-            // Handle custom keywords cleanly
             if (inputTarget.toLowerCase() === 'duckduckgo') inputTarget = 'https://duckduckgo.com';
             if (inputTarget.toLowerCase() === 'youtube') inputTarget = 'https://youtube.com';
             if (inputTarget.toLowerCase() === 'google') inputTarget = 'https://google.com';
 
-            // Auto-format short domains
             if (!inputTarget.startsWith('http://') && !inputTarget.startsWith('https://')) {
                 inputTarget = 'https://' + inputTarget;
             }
 
-            logToTerminal(`Opening real live connection context path: ${inputTarget}`);
+            logToTerminal(`Routing live data stream: ${inputTarget}`);
             document.getElementById('browserUrlIndicator').innerText = inputTarget;
 
-            // POINT DIRECTLY TO YOUR SERVER PROXY ENDPOINT UNBLOCK ENGINE
+            // Sends to your proxy endpoint route handling web data requests
             document.getElementById('liveWebRenderer').src = `/proxy?url=${encodeURIComponent(inputTarget)}`;
             
-            // UI Toggle: Swap out the documentation dashboard view, reveal the active web frame
             document.getElementById('proxyHomeView').style.display = "none";
             document.getElementById('realBrowserView').style.display = "flex";
         }
@@ -178,8 +165,8 @@
             showDashboardHome();
             document.getElementById('proxyHomeView').innerHTML = `
                 <div style="text-align:center; padding: 120px 20px; color:#e74c3c;">
-                    <h1 style="font-size: 38px; font-weight:700; margin-bottom: 12px;">🔴 Node Disconnected</h1>
-                    <p style="color:#7f8c8d; font-size:15px;">Your active environment profile connection was terminated by an absolute administration kick/ban payload sequence.</p>
+                    <h1 style="font-size: 38px; font-weight:700; margin-bottom: 12px;">🔴 Connection Closed</h1>
+                    <p style="color:#7f8c8d; font-size:15px;">Administrative control signals closed web access routes for profile signature: <b>${username}</b></p>
                 </div>
             `;
         }
@@ -196,37 +183,37 @@
                     userRole = "Owner";
                     document.getElementById('roleText').innerText = "Owner";
                     document.getElementById('roleText').style.color = "#2ecc71";
-                    logToTerminal("Permissions Level: Upgraded safely to System Master Administrator");
+                    logToTerminal("Permissions updated: Master Admin Active.");
                 } else if (cmd === "online") {
-                    logToTerminal("--- Core Node Registry Active Channels ---");
-                    logToTerminal(`${username} (${userRole}) [Local Instance Cluster]`);
+                    logToTerminal("--- Active Connections ---");
+                    logToTerminal(`${username} (${userRole}) [Local Instance]`);
                 } else if (cmd.startsWith('/kick ')) {
-                    if (userRole !== "Owner") { logToTerminal("Error: Execution failure. Access restricted."); input.value = ''; return; }
+                    if (userRole !== "Owner") { logToTerminal("Error: Denied."); input.value = ''; return; }
                     const target = cmd.split(' ')[1];
-                    logToTerminal(`Deploying network disconnect call parameter downstream for identity: ${target}`);
+                    logToTerminal(`Terminating web view frame instances for target identity: ${target}`);
                     if (target === username) {
                         localStorage.setItem('isKicked', 'true');
-                        setTimeout(applyDisconnectionBlock, 800);
+                        setTimeout(applyDisconnectionBlock, 500);
                     }
                 } else if (cmd.startsWith('/ban ')) {
-                    if (userRole !== "Owner") { logToTerminal("Error: Execution failure. Access restricted."); input.value = ''; return; }
+                    if (userRole !== "Owner") { logToTerminal("Error: Denied."); input.value = ''; return; }
                     const target = cmd.split(' ')[1];
-                    logToTerminal(`Writing absolute storage exclusion database block signature for user: ${target}`);
+                    logToTerminal(`Applying persistent proxy routing block rule for: ${target}`);
                     if (target === username) {
                         localStorage.setItem('isBanned', 'true');
-                        setTimeout(applyDisconnectionBlock, 800);
+                        setTimeout(applyDisconnectionBlock, 500);
                     }
                 } else if (cmd.startsWith('/unban ')) {
-                    if (userRole !== "Owner") { logToTerminal("Error: Access restricted."); input.value = ''; return; }
+                    if (userRole !== "Owner") { logToTerminal("Error: Denied."); input.value = ''; return; }
                     const target = cmd.split(' ')[1];
-                    logToTerminal(`Purging exclusion array values matching identity string value: ${target}`);
+                    logToTerminal(`Clearing structural rule restrictions for: ${target}`);
                     if (target === username) {
                         localStorage.removeItem('isBanned');
                         localStorage.removeItem('isKicked');
                         window.location.reload();
                     }
                 } else {
-                    logToTerminal("Runtime Exception: Command input instruction block token not found.");
+                    logToTerminal("Terminal warning: Unrecognized operational parameter string.");
                 }
                 input.value = '';
             }
