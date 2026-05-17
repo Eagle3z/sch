@@ -3,34 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eagle3z Web Portal</title>
+    <title>Eagle3z Web Environment</title>
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
 
-    <!-- Main Navigation Bar -->
+    <!-- Top Navigation Address Configuration -->
     <header>
         <div class="logo-area">EAGLE<span>3Z</span></div>
         <div class="search-bar-container">
-            <input type="text" id="urlInput" placeholder="Enter keyword (google, youtube, duckduckgo) or any URL...">
-            <button onclick="launchRealBrowser()">Launch Web</button>
+            <input type="text" id="urlInput" placeholder="Enter keyword (youtube, google) or full link (e.g., wikipedia.org)">
+            <button onclick="requestInternalFrame()">Load Inside Website</button>
         </div>
     </header>
 
     <!-- App Body Area -->
     <div class="workspace">
         
-        <!-- Welcome Splash Screen instead of an iframe -->
-        <div class="main-display">
-            <div class="welcome-box">
-                <h1>Google Engine Portal</h1>
-                <p>Type your destination shortcut or target address in the bar above and click "Launch Web" to open the authentic, unblocked site instantly.</p>
-                <div class="shortcut-tags">
-                    <span onclick="setSearch('google')">Google.com</span>
-                    <span onclick="setSearch('youtube')">YouTube.com</span>
-                    <span onclick="setSearch('duckduckgo')">DuckDuckGo.com</span>
-                </div>
-            </div>
+        <!-- The Internal Canvas Viewer -->
+        <div class="viewport-area">
+            <iframe id="webViewer" src="about:blank"></iframe>
         </div>
 
         <!-- Sidebar Administrative Controls -->
@@ -57,7 +49,6 @@
         let myPermission = "Guest";
         let myUsername = "";
 
-        // Identity verification system (Preserves name across browser refresh)
         function initIdentity() {
             const savedName = localStorage.getItem('portal_username');
             if (savedName) {
@@ -78,23 +69,19 @@
             output.scrollTop = output.scrollHeight;
         }
 
-        function setSearch(keyword) {
-            document.getElementById('urlInput').value = keyword;
-        }
-
-        // Launches the real, original browser engine tabs safely
-        function launchRealBrowser() {
-            let input = document.getElementById('urlInput').value.trim().toLowerCase();
+        // Processes shortcuts and feeds them safely into the proxy route
+        function requestInternalFrame() {
+            let input = document.getElementById('urlInput').value.trim();
             if (!input) return;
 
-            let targetUrl = input;
+            let targetUrl = input.toLowerCase();
 
-            // Strict matching for primary engine targets
-            if (input === 'google') {
-                targetUrl = 'https://www.google.com';
-            } else if (input === 'youtube') {
+            // Handle clean shortcut formatting 
+            if (targetUrl === 'youtube') {
                 targetUrl = 'https://www.youtube.com';
-            } else if (input === 'duckduckgo' || input === 'duck duck') {
+            } else if (targetUrl === 'google') {
+                targetUrl = 'https://www.google.com';
+            } else if (targetUrl === 'duckduckgo' || targetUrl === 'duck duck') {
                 targetUrl = 'https://www.duckduckgo.com';
             } else {
                 if (!targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) {
@@ -102,171 +89,10 @@
                 }
             }
 
-            printToTerminal(`Opening native browser thread to: ${targetUrl}`);
+            printToTerminal(`Routing connection through unblocking network for: ${targetUrl}`);
             
-            // Opens the real window completely unblocked
-            window.open(targetUrl, '_blank');
-        }
-
-        function executeCommand(event) {
-            if (event.key === 'Enter') {
-                const consoleInput = document.getElementById('cmdInput');
-                const rawCommand = consoleInput.value.trim();
-                if (!rawCommand) return;
-
-                printToTerminal(rawCommand);
-
-                if (rawCommand === "role Owner") {
-                    myPermission = "Owner";
-                    document.getElementById('permissionText').innerText = "Owner";
-                    document.getElementById('permissionText').style.color = "#2ecc71";
-                    printToTerminal("Permission Escalated: Owner privileges granted.");
-                } 
-                else if (rawCommand === "online") {
-                    printToTerminal("--- Online Users ---");
-                    printToTerminal(`${myUsername} (${myPermission}) [You]`);
-                } 
-                else if (rawCommand.startsWith('/kick ')) {
-                    if (myPermission !== "Owner") {
-                        printToTerminal("Error: Access denied. Requires Owner permissions.");
-                    } else {
-                        const target = rawCommand.split(' ')[1];
-                        printToTerminal(`Dispatched DISCONNECT signal to target: ${target}`);
-                    }
-                } 
-                else if (rawCommand.startsWith('/ban ')) {
-                    if (myPermission !== "Owner") {
-                        printToTerminal("Error: Access denied. Requires Owner permissions.");
-                    } else {
-                        const target = rawCommand.split(' ')[1];
-                        printToTerminal(`Added target to Network Blocklist: ${target}`);
-                    }
-                } 
-                else if (rawCommand.startsWith('/unban ')) {
-                    if (myPermission !== "Owner") {
-                        printToTerminal("Error: Access denied. Requires Owner permissions.");
-                    } else {
-                        const target = rawCommand.split(' ')[1];
-                        printToTerminal(`Removed target from Network Blocklist: ${target}`);
-                    }
-                } 
-                else {
-                    printToTerminal("Command error: Instruction unrecognized.");
-                }
-
-                consoleInput.value = '';
-            }
-        }
-    </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eagle3z Web Portal</title>
-    <link rel="stylesheet" href="main.css">
-</head>
-<body>
-
-    <!-- Main Navigation Bar -->
-    <header>
-        <div class="logo-area">EAGLE<span>3Z</span></div>
-        <div class="search-bar-container">
-            <input type="text" id="urlInput" placeholder="Enter keyword (google, youtube, duckduckgo) or any URL...">
-            <button onclick="launchRealBrowser()">Launch Web</button>
-        </div>
-    </header>
-
-    <!-- App Body Area -->
-    <div class="workspace">
-        
-        <!-- Welcome Splash Screen instead of an iframe -->
-        <div class="main-display">
-            <div class="welcome-box">
-                <h1>Google Engine Portal</h1>
-                <p>Type your destination shortcut or target address in the bar above and click "Launch Web" to open the authentic, unblocked site instantly.</p>
-                <div class="shortcut-tags">
-                    <span onclick="setSearch('google')">Google.com</span>
-                    <span onclick="setSearch('youtube')">YouTube.com</span>
-                    <span onclick="setSearch('duckduckgo')">DuckDuckGo.com</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sidebar Administrative Controls -->
-        <div class="admin-sidebar" id="controlPanel">
-            <h3>Management Console</h3>
-            
-            <div class="status-text">Your Identity: <span id="identityText" style="color:#3498db;">Loading...</span></div>
-            <div class="status-text">Current Permission: <span id="permissionText" style="color:#e74c3c;">Guest</span></div>
-            <div class="status-text">Active Sessions: <span id="sessionCounter">1</span></div>
-            
-            <hr>
-
-            <!-- Console Log Output Box -->
-            <label class="cmd-label">System Output</label>
-            <div id="terminalOutput" class="terminal-log"></div>
-
-            <label class="cmd-label" for="cmdInput">Command Line Interface</label>
-            <input type="text" id="cmdInput" class="cmd-box" placeholder="type command here..." onkeypress="executeCommand(event)">
-            <p class="cmd-hint">Commands: <code>role Owner</code>, <code>online</code>, <code>/kick [name]</code>, <code>/ban [name]</code></p>
-        </div>
-    </div>
-
-    <script>
-        let myPermission = "Guest";
-        let myUsername = "";
-
-        // Identity verification system (Preserves name across browser refresh)
-        function initIdentity() {
-            const savedName = localStorage.getItem('portal_username');
-            if (savedName) {
-                myUsername = savedName;
-            } else {
-                const randomID = Math.floor(1000 + Math.random() * 9000);
-                myUsername = "Guest_" + randomID;
-                localStorage.setItem('portal_username', myUsername);
-            }
-            document.getElementById('identityText').innerText = myUsername;
-        }
-
-        initIdentity();
-
-        function printToTerminal(text) {
-            const output = document.getElementById('terminalOutput');
-            output.innerHTML += `<div>> ${text}</div>`;
-            output.scrollTop = output.scrollHeight;
-        }
-
-        function setSearch(keyword) {
-            document.getElementById('urlInput').value = keyword;
-        }
-
-        // Launches the real, original browser engine tabs safely
-        function launchRealBrowser() {
-            let input = document.getElementById('urlInput').value.trim().toLowerCase();
-            if (!input) return;
-
-            let targetUrl = input;
-
-            // Strict matching for primary engine targets
-            if (input === 'google') {
-                targetUrl = 'https://www.google.com';
-            } else if (input === 'youtube') {
-                targetUrl = 'https://www.youtube.com';
-            } else if (input === 'duckduckgo' || input === 'duck duck') {
-                targetUrl = 'https://www.duckduckgo.com';
-            } else {
-                if (!targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) {
-                    targetUrl = 'https://' + targetUrl;
-                }
-            }
-
-            printToTerminal(`Opening native browser thread to: ${targetUrl}`);
-            
-            // Opens the real window completely unblocked
-            window.open(targetUrl, '_blank');
+            // Point the frame to your backend proxy gateway route
+            document.getElementById('webViewer').src = `/proxy?url=${encodeURIComponent(targetUrl)}`;
         }
 
         function executeCommand(event) {
