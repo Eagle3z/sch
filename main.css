@@ -1,4 +1,4 @@
-/* Base Layout Reset */
+/* --- Modern Layout Reset & Variable Base Structures --- */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,85 +6,100 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f7f5f2; /* Picture off-white texture match */
-    color: #333;
+    font-family: 'Inter', Arial, sans-serif;
+    background-color: #fcfbfa; /* Polished linen gray canvas balance */
+    color: #2d3436;
     display: flex;
     height: 100vh;
     width: 100vw;
     overflow: hidden;
 }
 
-/* --- Left Side Navigation Panel (Stays Fixed) --- */
+/* --- Left Sidebar (Dark Executive Theme Layout) --- */
 .left-sidebar {
-    width: 240px;
-    background-color: #1a1a1a;
+    width: 260px;
+    background-color: #0d0d11; /* Deeper premium near-black shade */
     color: #ffffff;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 20px 15px;
+    padding: 24px 18px;
     height: 100%;
     flex-shrink: 0;
     z-index: 10;
+    border-right: 1px solid rgba(255,255,255,0.04);
 }
 
 .sidebar-brand {
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 14px;
+    font-weight: 700;
     color: #3498db;
-    letter-spacing: 1px;
-    margin-bottom: 30px;
-    padding-left: 10px;
+    letter-spacing: 1.5px;
+    margin-bottom: 35px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 8px;
 }
 
 .sidebar-menu {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    flex-grow: 1;
+    gap: 8px;
 }
 
 .menu-btn {
     width: 100%;
-    background-color: #2b2b2b;
-    color: #ccc;
+    background-color: transparent;
+    color: #8e8e93;
     border: none;
-    padding: 12px;
-    border-radius: 4px;
+    padding: 12px 14px;
+    border-radius: 8px;
     text-align: left;
     cursor: pointer;
     font-size: 13px;
-    transition: background 0.2s, color 0.2s;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.menu-btn:hover, .menu-btn.active {
-    background-color: #333333;
-    color: #ffffff;
-    border-left: 3px solid #3498db;
+.menu-btn:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+    color: #e5e5ea;
 }
 
-.sidebar-footer {
-    padding-top: 15px;
+.menu-btn.active {
+    background-color: rgba(52, 152, 219, 0.12);
+    color: #3498db;
+    font-weight: 600;
 }
 
 .refresh-btn {
     width: 100%;
-    background: transparent;
-    border: 1px solid #444;
-    color: #aaa;
-    padding: 8px;
-    border-radius: 4px;
+    background-color: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #aeaeab;
+    padding: 10px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
 }
 
 .refresh-btn:hover {
-    color: #fff;
-    border-color: #666;
+    background-color: rgba(255,255,255,0.05);
+    color: #ffffff;
+    border-color: rgba(255,255,255,0.15);
 }
 
-/* --- Right Side Active App Content Framework --- */
+/* --- Right Side Workspace Framework --- */
 .main-content {
     flex-grow: 1;
     height: 100%;
@@ -94,120 +109,227 @@ body {
     justify-content: center;
 }
 
-/* Main Dashboard Welcome Interface Layout */
+/* Dashboard Home Container Panel Layout */
 .proxy-container {
-    max-width: 750px;
+    max-width: 780px;
     width: 100%;
-    padding: 60px 20px;
+    padding: 80px 24px;
     text-align: center;
 }
 
 .proxy-title {
-    font-size: 48px;
-    font-weight: bold;
-    color: #a48e77; /* Matched color palette from image */
-    margin-bottom: 20px;
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: #796652; /* Refined earthy-brown aesthetic choice from image overlay */
+    margin-bottom: 16px;
 }
 
 .proxy-subtitle {
-    color: #666;
+    color: #7f8c8d;
     font-size: 14px;
     line-height: 1.6;
-    margin-bottom: 30px;
+    max-width: 640px;
+    margin: 0 auto 35px auto;
 }
 
+/* Premium Redesigned Search Input Group */
 .search-box-wrapper {
     display: flex;
-    border: 1px solid #d2c9be;
-    border-radius: 4px;
-    background: #fff;
+    align-items: center;
+    border: 1px solid #e2dcd5;
+    border-radius: 10px;
+    background: #ffffff;
     overflow: hidden;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    padding: 4px 6px;
+    box-shadow: 0 4px 18px rgba(121, 102, 82, 0.05);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-box-wrapper:focus-within {
+    border-color: #bfae99;
+    box-shadow: 0 4px 22px rgba(121, 102, 82, 0.09);
+}
+
+.search-input-icon {
+    padding-left: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .search-box-wrapper input {
     flex-grow: 1;
     border: none;
-    padding: 14px 18px;
-    font-size: 15px;
+    padding: 14px 16px;
+    font-size: 14px;
+    font-family: inherit;
     outline: none;
+    color: #1c1c1e;
+    background: transparent;
 }
 
 .go-btn {
-    background-color: #bfae99;
-    color: white;
+    background-color: #bfae99; /* Clean custom image canvas fill tint mapping */
+    color: #ffffff;
     border: none;
-    padding: 0 25px;
-    font-weight: bold;
+    padding: 0 28px;
+    height: 46px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
     cursor: pointer;
-    font-size: 15px;
+    transition: background-color 0.2s;
 }
 
 .go-btn:hover {
-    background-color: #a3937e;
+    background-color: #aa9984;
 }
 
+/* Quick Navigation Links Component */
 .quick-links {
-    font-size: 13px;
-    color: #777;
-    margin-bottom: 40px;
+    margin-bottom: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.links-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #a49a90;
+    letter-spacing: 0.5px;
+}
+
+.links-cloud {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
 .quick-links a {
-    color: #a48e77;
-    text-decoration: underline;
-    margin-left: 6px;
+    color: #796652;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    background-color: #f1ede8;
+    padding: 4px 12px;
+    border-radius: 14px;
+    transition: all 0.15s ease;
+}
+
+.quick-links a:hover {
+    background-color: #796652;
+    color: #ffffff;
+}
+
+/* Content Layout Text Columns */
+.info-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 50px;
+}
+
+.info-card {
+    background: #ffffff;
+    border: 1px solid #f1ece6;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.01);
 }
 
 .info-content p {
     font-size: 13px;
-    color: #777;
-    line-height: 1.7;
-    margin-bottom: 20px;
+    color: #6e6e73;
+    line-height: 1.6;
     text-align: justify;
 }
 
-/* --- Inline Administrative Console Component --- */
+/* --- High Performance Dev/Admin Terminal Styling --- */
 .admin-terminal-section {
-    margin-top: 40px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    border: 1px solid #e8e3dc;
+    border-radius: 10px;
     background-color: #ffffff;
-    padding: 15px;
+    padding: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
     text-align: left;
 }
 
 .terminal-header {
-    font-size: 12px;
-    font-weight: bold;
-    color: #888;
-    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #f5f0ea;
+}
+
+.terminal-dots {
+    display: flex;
+    gap: 6px;
+}
+
+.terminal-dots span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #e4e4e7;
+}
+
+.terminal-meta {
+    font-size: 11px;
+    font-weight: 600;
+    color: #a1a1aa;
+    font-family: monospace;
 }
 
 .terminal-screen {
-    height: 100px;
-    background-color: #111;
+    height: 120px;
+    background-color: #09090b;
     color: #3498db;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 12px;
+    border-radius: 6px;
+    overflow-y: auto;
+    margin-bottom: 12px;
+}
+
+.terminal-input-wrapper {
+    display: flex;
+    align-items: center;
+    background-color: #f4f4f5;
+    border-radius: 6px;
+    padding: 4px 12px;
+    border: 1px solid #e4e4e7;
+}
+
+.terminal-prompt {
     font-family: monospace;
     font-size: 12px;
-    padding: 10px;
-    border-radius: 4px;
-    overflow-y: auto;
-    margin-bottom: 8px;
+    color: #71717a;
+    margin-right: 8px;
+    user-select: none;
 }
 
 .terminal-input {
-    width: 100%;
-    padding: 8px 12px;
-    background-color: #eee;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    padding: 8px 0;
     font-family: monospace;
     font-size: 12px;
+    color: #18181b;
     outline: none;
 }
 
-/* --- Right Side Browser Window (Sits beside Sidebar) --- */
+/* --- Sandbox Slideout Right Window Panel Viewport --- */
 .right-side-browser {
     position: absolute;
     top: 0;
@@ -220,30 +342,51 @@ body {
     width: 100%;
     height: 100%;
     z-index: 5;
+    animation: fadeIn 0.25s ease-out;
 }
 
 .browser-navbar {
-    background: #1a1a1a;
+    background: #0d0d11;
     color: #fff;
-    padding: 12px 20px;
+    padding: 14px 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 13px;
+}
+
+.browser-address-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: monospace;
+    font-size: 12px;
+    color: #a1a1aa;
+    background-color: rgba(255,255,255,0.05);
+    padding: 6px 16px;
+    border-radius: 20px;
+    max-width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .back-home-btn {
-    background: #e74c3c;
-    color: white;
+    background-color: #e74c3c;
+    color: #ffffff;
     border: none;
-    padding: 6px 14px;
-    border-radius: 4px;
+    padding: 8px 16px;
+    border-radius: 6px;
     cursor: pointer;
-    font-weight: bold;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.15s;
 }
 
 .back-home-btn:hover {
-    background: #c0392b;
+    background-color: #c0392b;
 }
 
 #proxyViewer {
@@ -251,4 +394,9 @@ body {
     flex-grow: 1;
     border: none;
     background-color: #ffffff;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.99); }
+    to { opacity: 1; transform: scale(1); }
 }
