@@ -173,8 +173,8 @@
     <div class="workspace-wrapper">
         <div class="sidebar">
             <h2>DASHBOARD</h2>
-            <button id="btn-yt" class="nav-btn active" onclick="loadSite('https://www.youtube.com/', 'btn-yt')">YouTube</button>
-            <button id="btn-tt" class="nav-btn" onclick="loadSite('https://www.tiktok.com/', 'btn-tt')">TikTok</button>
+            <button id="btn-yt" class="nav-btn active" onclick="loadSite('https://www.youtube.com', 'btn-yt')">YouTube</button>
+            <button id="btn-tt" class="nav-btn" onclick="loadSite('https://www.tiktok.com', 'btn-tt')">TikTok</button>
             <button id="btn-croxy" class="nav-btn" onclick="loadSite('https://www.croxyproxy.com/social', 'btn-croxy')">CroxyProxy Social</button>
             <button class="nav-btn" style="margin-top: auto; background: #222; color: #aaa;" onclick="location.reload()">Refresh App</button>
         </div>
@@ -351,7 +351,7 @@
         // Execution setup routine triggers on window object assembly 
         window.onload = function() {
             loadIdentity();
-            loadSite('https://www.youtube.com/', 'btn-yt');
+            loadSite('https://www.youtube.com', 'btn-yt');
         };
     </script>
 
