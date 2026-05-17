@@ -1,4 +1,4 @@
-/* --- Modern Layout Reset & Base Structures --- */
+/* --- Global Resets & Variable Foundations --- */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -15,7 +15,7 @@ body {
     overflow: hidden;
 }
 
-/* --- Left Sidebar (Dark Executive Palette) --- */
+/* --- Left Sidebar (Dark Presentation Theme Layout) --- */
 .left-sidebar {
     width: 260px;
     background-color: #0d0d11; 
@@ -62,7 +62,7 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s ease;
 }
 
 .menu-btn:hover {
@@ -76,6 +76,10 @@ body {
     font-weight: 600;
 }
 
+.sidebar-footer {
+    padding-top: 15px;
+}
+
 .refresh-btn {
     width: 100%;
     background-color: rgba(255,255,255,0.02);
@@ -85,21 +89,13 @@ body {
     border-radius: 6px;
     cursor: pointer;
     font-size: 12px;
-    font-weight: 500;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    transition: all 0.2s;
 }
 
-.refresh-btn:hover {
-    background-color: rgba(255,255,255,0.05);
-    color: #ffffff;
-    border-color: rgba(255,255,255,0.15);
-}
-
-/* --- Right Side Workspace Area --- */
+/* --- Right Side Active Workspace Panels --- */
 .main-content {
     flex-grow: 1;
     height: 100%;
@@ -132,7 +128,7 @@ body {
     margin: 0 auto 35px auto;
 }
 
-/* Search Box Wrapper Group styling */
+/* Redesigned Premium Input Group Element */
 .search-box-wrapper {
     display: flex;
     align-items: center;
@@ -143,19 +139,12 @@ body {
     margin-bottom: 20px;
     padding: 4px 6px;
     box-shadow: 0 4px 18px rgba(121, 102, 82, 0.05);
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.search-box-wrapper:focus-within {
-    border-color: #bfae99;
-    box-shadow: 0 4px 22px rgba(121, 102, 82, 0.09);
 }
 
 .search-input-icon {
     padding-left: 14px;
     display: flex;
     align-items: center;
-    justify-content: center;
 }
 
 .search-box-wrapper input {
@@ -178,14 +167,9 @@ body {
     font-weight: 600;
     font-size: 14px;
     cursor: pointer;
-    transition: background-color 0.2s;
 }
 
-.go-btn:hover {
-    background-color: #aa9984;
-}
-
-/* Quick Navigation Links Component */
+/* Quick Navigation Links Cloud */
 .quick-links {
     margin-bottom: 45px;
     display: flex;
@@ -200,13 +184,11 @@ body {
     font-weight: 700;
     text-transform: uppercase;
     color: #a49a90;
-    letter-spacing: 0.5px;
 }
 
 .links-cloud {
     display: flex;
     gap: 8px;
-    flex-wrap: wrap;
 }
 
 .quick-links a {
@@ -217,15 +199,9 @@ body {
     background-color: #f1ede8;
     padding: 4px 12px;
     border-radius: 14px;
-    transition: all 0.15s ease;
 }
 
-.quick-links a:hover {
-    background-color: #796652;
-    color: #ffffff;
-}
-
-/* Content Layout Text Columns */
+/* Informational Cards Row Grid */
 .info-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -247,13 +223,12 @@ body {
     text-align: justify;
 }
 
-/* --- Inline Administrative Console Component --- */
+/* --- Inline Administrative Console Output Panels --- */
 .admin-terminal-section {
     border: 1px solid #e8e3dc;
     border-radius: 10px;
     background-color: #ffffff;
     padding: 16px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
     text-align: left;
 }
 
@@ -262,8 +237,6 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 12px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid #f5f0ea;
 }
 
 .terminal-dots {
@@ -286,12 +259,11 @@ body {
 }
 
 .terminal-screen {
-    height: 120px;
+    height: 110px;
     background-color: #09090b;
     color: #3498db;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: monospace;
     font-size: 12px;
-    line-height: 1.5;
     padding: 12px;
     border-radius: 6px;
     overflow-y: auto;
@@ -321,52 +293,52 @@ body {
     padding: 8px 0;
     font-family: monospace;
     font-size: 12px;
-    color: #18181b;
     outline: none;
 }
 
-/* --- Sandbox Slideout Right Window Panel Viewport --- */
-.right-side-browser {
+/* --- THE NEW RIGHT SIDE REAL LIVE WEB WINDOW (Fills Viewport Alongside Sidebar) --- */
+.right-side-web-frame {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: #ffffff;
+    background-color: #ffffff;
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100%;
     z-index: 5;
-    animation: fadeIn 0.25s ease-out;
+    animation: mountAnimate 0.2s ease-out;
 }
 
-.browser-navbar {
-    background: #0d0d11;
-    color: #fff;
-    padding: 14px 24px;
+.browser-header-navigation {
+    background-color: #0d0d11;
+    color: #ffffff;
+    padding: 12px 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-.browser-address-indicator {
+.browser-address-pill {
     display: flex;
     align-items: center;
     gap: 8px;
     font-family: monospace;
     font-size: 12px;
     color: #a1a1aa;
-    background-color: rgba(255,255,255,0.05);
-    padding: 6px 16px;
+    background-color: rgba(255,255,255,0.06);
+    padding: 6px 18px;
     border-radius: 20px;
-    max-width: 60%;
+    max-width: 65%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.back-home-btn {
+.exit-browser-btn {
     background-color: #e74c3c;
     color: #ffffff;
     border: none;
@@ -378,20 +350,22 @@ body {
     display: flex;
     align-items: center;
     gap: 6px;
+    transition: background-color 0.1s ease;
 }
 
-.back-home-btn:hover {
+.exit-browser-btn:hover {
     background-color: #c0392b;
 }
 
-#proxyViewer {
+/* This targets the actual unblocked website frame container */
+#liveWebRenderer {
     width: 100%;
     flex-grow: 1;
     border: none;
     background-color: #ffffff;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.99); }
+@keyframes mountAnimate {
+    from { opacity: 0; transform: scale(0.995); }
     to { opacity: 1; transform: scale(1); }
 }
