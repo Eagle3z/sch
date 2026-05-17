@@ -12,8 +12,8 @@
         <div class="sidebar-brand">DASHBOARD</div>
         
         <nav class="sidebar-menu">
-            <button class="menu-btn active" onclick="switchTab('youtube')">YouTube Unblock</button>
-            <button class="menu-btn" onclick="switchTab('social')">CroxyProxy Social</button>
+            <button class="menu-btn active" onclick="showDashboardHome()">YouTube Unblock</button>
+            <button class="menu-btn" onclick="logToTerminal('Switched to CroxyProxy Social')">CroxyProxy Social</button>
         </nav>
 
         <div class="sidebar-footer">
@@ -23,7 +23,7 @@
 
     <main class="main-content">
         
-        <section id="youtubeTab" class="proxy-container">
+        <section id="proxyHomeView" class="proxy-container">
             <h1 class="proxy-title">Unblock YouTube</h1>
             
             <p class="proxy-subtitle">
@@ -48,7 +48,7 @@
 
             <div class="info-content">
                 <p>Simply paste the website URL in the box above and hit "GO" to enjoy seamless browsing. Try it out today and take back control of your internet experience!</p>
-                <p>Looking for a secure and private way to browse the web? Our web proxy provides you with complete anonymity, allowing you to access any website without revealing your IP address or location. With our advanced encryption technology, you can rest assured that your browsing activity is completely private and secure.</p>
+                <p>Looking for a secure and private way to browse the web? Our web proxy provides you with complete anonymity, allowing you to access any website without revealing your IP address or location.</p>
             </div>
 
             <div class="admin-terminal-section">
@@ -60,9 +60,10 @@
             </div>
         </section>
 
-        <div id="frameWrapper" class="frame-overlay" style="display: none;">
-            <div class="frame-navbar">
-                <button class="close-frame-btn" onclick="closeFrame()">✕ Close Viewer</button>
+        <div id="browserView" class="right-side-browser" style="display: none;">
+            <div class="browser-navbar">
+                <span id="currentBrowsingUrl">Loading Page...</span>
+                <button class="back-home-btn" onclick="showDashboardHome()">✕ Close Web</button>
             </div>
             <iframe id="proxyViewer" src="about:blank"></iframe>
         </div>
@@ -73,7 +74,6 @@
         let userRole = "Guest";
         let username = "";
 
-        // Keep username persistent across page refreshes
         function loadUserIdentity() {
             const savedUser = localStorage.getItem('portal_user');
             if (savedUser) {
@@ -89,28 +89,22 @@
 
         function logToTerminal(msg) {
             const screen = document.getElementById('terminalLog');
-            screen.innerHTML += `<div>> ${msg}</div>`;
-            screen.scrollTop = screen.scrollHeight;
+            if(screen) {
+                screen.innerHTML += `<div>> ${msg}</div>`;
+                screen.scrollTop = screen.scrollHeight;
+            }
         }
 
         function setURL(url) {
             document.getElementById('urlInput').value = url;
+            launchProxy(); // Automatically launch when a quick link is clicked
         }
 
-        // Switch Left Sidebar Tab menus
-        function switchTab(tabName) {
-            const buttons = document.querySelectorAll('.menu-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            logToTerminal(`Switched workspace views context to: ${tabName}`);
-        }
-
-        // Standardized Proxy Execution Wrapper
+        // Switches views to show the custom browser inside the right side panel
         function launchProxy() {
             let target = document.getElementById('urlInput').value.trim();
             if (!target) return;
 
-            // Handle short keywords
             if (target.toLowerCase() === 'youtube') target = 'https://www.youtube.com';
             if (target.toLowerCase() === 'google') target = 'https://www.google.com';
             if (target.toLowerCase() === 'duckduckgo') target = 'https://www.duckduckgo.com';
@@ -119,19 +113,25 @@
                 target = 'https://' + target;
             }
 
-            logToTerminal(`Routing browser traffic to proxy portal connection: ${target}`);
+            logToTerminal(`Routing traffic to right-side window: ${target}`);
             
-            // Point iframe to backend proxy unblocker node pipeline
+            document.getElementById('currentBrowsingUrl').innerText = "Browsing: " + target;
+            
+            // Connect to your node backend unblocker engine route
             document.getElementById('proxyViewer').src = `/proxy?url=${encodeURIComponent(target)}`;
-            document.getElementById('frameWrapper').style.display = "block";
+            
+            // Hide the home text menu and reveal the web browser on the right side
+            document.getElementById('proxyHomeView').style.display = "none";
+            document.getElementById('browserView').style.display = "flex";
         }
 
-        function closeFrame() {
-            document.getElementById('frameWrapper').style.display = "none";
+        // Returns right panel back to the proxy entry dashboard interface
+        function showDashboardHome() {
+            document.getElementById('browserView').style.display = "none";
+            document.getElementById('proxyHomeView').style.display = "block";
             document.getElementById('proxyViewer').src = "about:blank";
         }
 
-        // Admin command line controller functions
         function handleAdminCommand(e) {
             if (e.key === 'Enter') {
                 const input = document.getElementById('cmdInput');
@@ -144,7 +144,7 @@
                     userRole = "Owner";
                     document.getElementById('roleText').innerText = "Owner";
                     document.getElementById('roleText').style.color = "#2ecc71";
-                    logToTerminal("System Status: Access Elevation Successful. Privileges granted.");
+                    logToTerminal("Permission Escalated: Owner privileges granted.");
                 } else if (cmd === "online") {
                     logToTerminal("--- Online Users ---");
                     logToTerminal(`${username} (${userRole}) [You]`);
@@ -152,22 +152,22 @@
                     if (userRole !== "Owner") {
                         logToTerminal("Error: Denied. Requires Owner role.");
                     } else {
-                        logToTerminal(`Kicked target identity: ${cmd.split(' ')[1]}`);
+                        logToTerminal(`Kicked user: ${cmd.split(' ')[1]}`);
                     }
                 } else if (cmd.startsWith('/ban ')) {
                     if (userRole !== "Owner") {
                         logToTerminal("Error: Denied. Requires Owner role.");
                     } else {
-                        logToTerminal(`Banned client node: ${cmd.split(' ')[1]}`);
+                        logToTerminal(`Banned IP address: ${cmd.split(' ')[1]}`);
                     }
                 } else if (cmd.startsWith('/unban ')) {
                     if (userRole !== "Owner") {
                         logToTerminal("Error: Denied. Requires Owner role.");
                     } else {
-                        logToTerminal(`Unbanned client node: ${cmd.split(' ')[1]}`);
+                        logToTerminal(`Unbanned IP address: ${cmd.split(' ')[1]}`);
                     }
                 } else {
-                    logToTerminal("Command execution fault: Instruction unknown.");
+                    logToTerminal("Command error: Unknown instruction string.");
                 }
                 input.value = '';
             }
