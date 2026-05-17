@@ -178,6 +178,8 @@ body {
 .links-cloud {
     display: flex;
     gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .quick-links a {
@@ -186,8 +188,14 @@ body {
     font-size: 13px;
     font-weight: 500;
     background-color: #f1ede8;
-    padding: 4px 12px;
+    padding: 6px 14px;
     border-radius: 14px;
+    transition: all 0.1s ease;
+}
+
+.quick-links a:hover {
+    background-color: #796652;
+    color: #ffffff;
 }
 
 /* --- Console Display Array --- */
@@ -263,7 +271,7 @@ body {
     outline: none;
 }
 
-/* --- THE FULL FLUID EMBED VIEW PORT PANEL --- */
+/* --- FULL VIEW PORT EMBED PANEL --- */
 .right-side-web-frame {
     position: absolute;
     top: 0;
