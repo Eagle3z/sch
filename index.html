@@ -11,7 +11,7 @@
     <!-- Unified Address Bar -->
     <header>
         <label for="urlInput">BROWSER:</label>
-        <input type="text" id="urlInput" placeholder="Enter target URL (e.g., youtube.com)">
+        <input type="text" id="urlInput" placeholder="Enter URL or shortcut (youtube, google, duckduckgo)">
         <button onclick="navigateStream()">Load Link</button>
     </header>
 
@@ -23,7 +23,7 @@
         <div class="admin-sidebar" id="controlPanel">
             <h3>Management Console</h3>
             
-            <div class="status-text">Your Identity: <span id="identityText" style="color:#3498db;">Generating...</span></div>
+            <div class="status-text">Your Identity: <span id="identityText" style="color:#3498db;">Loading...</span></div>
             <div class="status-text">Current Permission: <span id="permissionText" style="color:#e74c3c;">Guest</span></div>
             <div class="status-text">Active Sessions: <span id="sessionCounter">1</span></div>
             
@@ -35,31 +35,60 @@
 
             <label class="cmd-label" for="cmdInput">Command Line Interface</label>
             <input type="text" id="cmdInput" class="cmd-box" placeholder="type command here..." onkeypress="executeCommand(event)">
-            <p class="cmd-hint">Commands: <code>role Owner</code>, <code>online</code>, <code>/kick [name]</code>, <code>/ban [name]</code>, <code>/unban [name]</code></p>
+            <p class="cmd-hint">Commands: <code>role Owner</code>, <code>online</code>, <code>/kick [name]</code>, <code>/ban [name]</code></p>
         </div>
     </div>
 
     <script>
-        // Set up client profile state variables
         let myPermission = "Guest";
-        
-        // Generate a random guest user name on load
-        const randomID = Math.floor(1000 + Math.random() * 9000);
-        const myUsername = "Guest_" + randomID;
-        document.getElementById('identityText').innerText = myUsername;
+        let myUsername = "";
+
+        // Core Identity Check System (Saves across refreshes)
+        function initIdentity() {
+            // Try to find an existing name inside the browser storage
+            const savedName = localStorage.getItem('portal_username');
+
+            if (savedName) {
+                myUsername = savedName;
+            } else {
+                // If no name exists, build a brand new random identity
+                const randomID = Math.floor(1000 + Math.random() * 9000);
+                myUsername = "Guest_" + randomID;
+                // Lock it into browser storage memory
+                localStorage.setItem('portal_username', myUsername);
+            }
+
+            document.getElementById('identityText').innerText = myUsername;
+        }
+
+        // Run identity tracking immediately on layout setup
+        initIdentity();
 
         function printToTerminal(text) {
             const output = document.getElementById('terminalOutput');
             output.innerHTML += `<div>> ${text}</div>`;
-            output.scrollTop = output.scrollHeight; // Auto-scroll to bottom
+            output.scrollTop = output.scrollHeight;
         }
 
         function navigateStream() {
-            let targetUrl = document.getElementById('urlInput').value.trim();
-            if (!targetUrl) return;
-            if (!targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) {
-                targetUrl = 'https://' + targetUrl;
+            let input = document.getElementById('urlInput').value.trim().toLowerCase();
+            if (!input) return;
+
+            let targetUrl = input;
+
+            if (input === 'youtube') {
+                targetUrl = 'https://www.youtube.com';
+            } else if (input === 'google') {
+                targetUrl = 'https://www.google.com';
+            } else if (input === 'duckduckgo' || input === 'duck duck') {
+                targetUrl = 'https://www.duckduckgo.com';
+            } else {
+                if (!targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) {
+                    targetUrl = 'https://' + targetUrl;
+                }
             }
+
+            printToTerminal(`Navigating browser panel to: ${targetUrl}`);
             document.getElementById('webViewer').src = targetUrl;
         }
 
@@ -71,7 +100,6 @@
 
                 printToTerminal(rawCommand);
 
-                // Command processing logic
                 if (rawCommand === "role Owner") {
                     myPermission = "Owner";
                     document.getElementById('permissionText').innerText = "Owner";
@@ -79,10 +107,8 @@
                     printToTerminal("Permission Escalated: Owner privileges granted.");
                 } 
                 else if (rawCommand === "online") {
-                    // Simulating a list (In production, this requests data from server.js)
                     printToTerminal("--- Online Users ---");
                     printToTerminal(`${myUsername} (${myPermission}) [You]`);
-                    printToTerminal("Guest_4829 (Guest)");
                 } 
                 else if (rawCommand.startsWith('/kick ')) {
                     if (myPermission !== "Owner") {
